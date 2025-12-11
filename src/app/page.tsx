@@ -1,9 +1,9 @@
+import EditTask from "@/components/custom/edit-task";
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -12,7 +12,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -22,7 +21,6 @@ import {
   ListCheck,
   Plus,
   Sigma,
-  SquarePen,
   Trash,
 } from "lucide-react";
 
@@ -61,18 +59,8 @@ export default function Home() {
               <p className="flex-1 px-2 text-sm">Estudar react</p>
               <div className="flex gap-2 items-center">
                 
-                <Dialog>
-                  <DialogTrigger><SquarePen size={16} className="cursor-pointer" /></DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Editar tarefa</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex gap-2">
-                      <Input placeholder="Editar tarefa"/>
-                      <Button className="cursor-pointer">Editar</Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <EditTask/>
+
                 <Trash size={16} className="cursor-pointer" />
               </div>
             </div>
