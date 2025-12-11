@@ -1,3 +1,6 @@
+"use client";
+
+import { getTasks } from "@/actions/get-task-from-db";
 import EditTask from "@/components/custom/edit-task";
 import {
   AlertDialog,
@@ -14,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Tasks } from "@/generated/prisma/client";
 import {
   ArrowDownRight,
   Check,
@@ -23,14 +27,37 @@ import {
   Sigma,
   Trash,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [taskList, setTaskList] = useState<Tasks[]>([]);
+  const [newTask, setNewTask] = useState<string>('');
+  console.log(newTask);
+
+  const handleGetTasks = async () => {
+    try {
+      const tasks = await getTasks();
+      if (tasks) setTaskList(tasks);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleAddTask = async () => {
+    
+  }
+
+  useEffect(() => {
+    handleGetTasks();
+  }, []);
+
+
   return (
     <main className="w-full h-screen bg-gray-100 flex justify-center items-center">
       <Card className="w-lg">
         <CardHeader className="flex gap-2">
-          <Input placeholder="Adicionar tarefa"></Input>
-          <Button className="cursor-pointer">
+          <Input placeholder="Adicionar tarefa" onChange={(e) => setNewTask(e.target.value)}></Input>
+          <Button className="cursor-pointer" onClick={handleAddTask}>
             <Plus />
             Cadastrar
           </Button>
@@ -54,16 +81,20 @@ export default function Home() {
           </div>
 
           <div className="mt-4 border-b">
-            <div className="h-14 flex justify-between items-center border-t">
-              <div className="w-1 h-full bg-green-300"></div>
-              <p className="flex-1 px-2 text-sm">Estudar react</p>
-              <div className="flex gap-2 items-center">
-                
-                <EditTask/>
+            {taskList.map((task) => (
+              <div
+                className="h-14 flex justify-between items-center border-t"
+                key={task.id}
+              >
+                <div className="w-1 h-full bg-green-300"></div>
+                <p className="flex-1 px-2 text-sm">{task.description}</p>
+                <div className="flex gap-2 items-center">
+                  <EditTask />
 
-                <Trash size={16} className="cursor-pointer" />
+                  <Trash size={16} className="cursor-pointer" />
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="flex justify-between mt-4">
